@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Game Dino 🦖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Press Start 2P', cursive;
+      background: #eee;
+      text-align: center;
+    }
+
+    nav {
+      background: repeating-linear-gradient(45deg, #ccc, #ccc 10px, #eee 10px, #eee 20px);
+      padding: 15px;
+      font-size: 14px;
+    }
+
+    nav a {
+      margin: 0 20px;
+      text-decoration: none;
+      color: black;
+    }
+
+    #intro {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 16px;
+      opacity: 0;
+      animation: fadeIn 2s ease-out forwards, moveUp 2s 2s forwards;
+      z-index: 10;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes moveUp {
+      0% { transform: translate(-50%, -50%); }
+      100% { transform: translate(-50%, -120%); }
+    }
+
+    .blurred #game {
+      filter: blur(5px);
+    }
+
+    h1 {
+      margin: 30px 0 10px;
+    }
+
+    #game {
+      position: relative;
+      width: 800px;
+      height: 300px;
+      margin: 0 auto;
+      background: white;
+      border: 3px solid black;
+      overflow: hidden;
+      transition: filter 0.5s ease;
+    }
+
+    #dino {
+      position: absolute;
+      bottom: 0;
+      left: 50px;
+      width: 60px;
+      height: 60px;
+      background: url('https://i.imgur.com/i5fPE18.png') no-repeat center;
+      background-size: contain;
+      image-rendering: pixelated;
+    }
+
+    .jump {
+      animation: lompat 0.4s ease-out;
+    }
+
+    @keyframes lompat {
+      0% { bottom: 0; }
+      50% { bottom: 100px; }
+      100% { bottom: 0; }
+    }
+
+    #cactus {
+      position: absolute;
+      bottom: 0;
+      right: -30px;
+      width: 30px;
+      height: 50px;
+      background-color: green;
+    }
+
+    #gameOver {
+      color: red;
+      font-size: 16px;
+      font-weight: bold;
+      display: none;
+      margin-top: 10px;
+    }
+
+    .button {
+      margin: 10px 5px;
+      padding: 10px 20px;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 12px;
+      cursor: pointer;
+      border: 2px solid black;
+      background: white;
+    }
+
+    #startBtn, #restartBtn {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+    }
+
+    #startBtn {
+      top: 60%;
+    }
+
+    #restartBtn {
+      top: 70%;
+      display: none;
+    }
+
+    #backBtn {
+      display: none;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body class="blurred">
+
+  <nav>
+    <a href="../profile.html">Profile</a>
+    <a href="../games.html">Games</a>
+  </nav>
+
+  <div id="intro">WELCOME TO DINO WORLD</div>
+  <button id="startBtn" class="button">START GAME</button>
+  <button id="restartBtn" class="button">RESTART</button>
+
+  <h1>Game Dino 🦖</h1>
+  <p>Tekan <strong>Spasi</strong> / tombol lompat untuk melompat</p>
+
+  <div id="game">
+    <div id="dino"></div>
+    <div id="cactus"></div>
+  </div>
+
+  <button onclick="jump()" class="button">Lompat</button>
+
+  <div id="gameOver">Game Over 😵</div>
+  <a href="../games.html" id="backBtn">
+  
+  <button class="button">Kembali ke Menu</button>
+  </a>
+
+  <!-- Audio -->
+  <audio id="jumpSound" src="../audio/jump.mp3"></audio>
+<audio id="gameOverSound" src="../audio/game-over.mp3"></audio>
+<audio id="startSound" src="../audio/game-start.mp3"></audio>
+
+
+  <script>
+    const dino = document.getElementById("dino");
+    const cactus = document.getElementById("cactus");
+    const gameOverDisplay = document.getElementById("gameOver");
+    const startBtn = document.getElementById("startBtn");
+    const restartBtn = document.getElementById("restartBtn");
+    const intro = document.getElementById("intro");
+    const body = document.body;
+    const backBtn = document.getElementById("backBtn");
+
+    const jumpSound = document.getElementById("jumpSound");
+    const gameOverSound = document.getElementById("gameOverSound");
+    const startSound = document.getElementById("startSound");
+
+    let isAlive = false;
+
+    // ⬇ Tambahkan ini DI SINI
+  startBtn.addEventListener("click", () => {
+    startSound.play(); // Memutar suara saat tombol Start diklik
+  });
+
+    function jump() {
+      if (!isAlive) return;
+      if (!dino.classList.contains("jump")) {
+        dino.classList.add("jump");
+        jumpSound.currentTime = 0;
+        jumpSound.play();
+        setTimeout(() => dino.classList.remove("jump"), 400);
+      }
+    }
+
+    function gerakCactus() {
+      let pos = 800;
+      const move = setInterval(() => {
+        if (!isAlive) {
+          clearInterval(move);
+          return;
+        }
+
+        pos -= 5;
+        cactus.style.left = pos + "px";
+
+        if (pos < -30) {
+          pos = 800;
+        }
+
+        let dinoTop = parseInt(window.getComputedStyle(dino).getPropertyValue("bottom"));
+        if (pos < 90 && pos > 50 && dinoTop < 50) {
+          isAlive = false;
+          gameOverDisplay.style.display = "block";
+          restartBtn.style.display = "inline-block";
+          backBtn.style.display = "inline-block";
+          gameOverSound.currentTime = 0;
+          gameOverSound.play();
+        }
+      }, 20);
+    }
+
+    startBtn.addEventListener("click", () => {
+      startBtn.style.display = "none";
+      intro.style.display = "none";
+      body.classList.remove("blurred");
+      isAlive = true;
+      startSound.currentTime = 0;
+      startSound.play();
+      gerakCactus();
+    });
+
+    restartBtn.addEventListener("click", () => {
+      isAlive = true;
+      cactus.style.left = "800px";
+      gameOverDisplay.style.display = "none";
+      restartBtn.style.display = "none";
+      backBtn.style.display = "none";
+      gerakCactus();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.code === "Space") jump();
+    });
+  </script>
+</body>
+</html>
