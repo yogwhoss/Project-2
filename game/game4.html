@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Game 4</title>
+  <style>
+    /* --- GAYA CSS TETAP SAMA --- */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: white;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      text-align: center;
+      padding: 1em 0;
+      z-index: 1000;
+    }
+
+    nav a {
+  color: #000;
+  font-weight: bold;
+  font-size: 18px;
+  margin: 0 20px;
+  letter-spacing: 1px;
+  text-decoration: none;
+}
+
+
+    nav span {
+      color: #000;
+      font-weight: bold;
+      font-size: 18px;
+      margin: 0 20px;
+      letter-spacing: 1px;
+    }
+
+    .container {
+      margin-top: 80px;
+      text-align: center;
+      position: relative;
+    }
+
+    canvas {
+      max-width: 100%;
+      height: auto;
+      background-color: #ccc;
+      border: 4px solid #000;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn-wrapper {
+      text-align: center;
+    }
+
+    .btn-wrapper img {
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+    }
+
+    .btn-wrapper h1 {
+      margin: 5px 0 0;
+      font-size: 16px;
+      color: #00ffe0;
+      text-shadow: 0 0 10px #00ffe0, 0 0 20px #00ffe0;
+      text-transform: uppercase;
+    }
+
+    .canvas-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(8px);
+      background-color: rgba(255, 255, 255, 0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 10;
+    }
+
+    .loading-icons {
+      font-size: 40px;
+      color: #ff007f;
+      text-shadow: 0 0 10px #ff007f, 0 0 20px #ff007f;
+      animation: flicker 1.2s infinite;
+    }
+
+    @keyframes flicker {
+      0% { opacity: 1; }
+      50% { opacity: 0.4; transform: scale(1.1); }
+      100% { opacity: 1; }
+    }
+
+    .start-btn {
+      margin-top: 20px;
+      padding: 12px 30px;
+      font-size: 16px;
+      background-color: black;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-shadow: 0 0 5px #fff;
+    }
+
+    .start-btn:hover {
+      background-color: #222;
+    }
+
+    .result-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  color: #fff;
+  font-size: 48px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+  text-shadow: 0 0 10px #00ffe0, 0 0 20px #00ffe0;
+}
+  </style>
+</head>
+<body>
+
+ <nav>
+  <a href="../profile.html">Profile</a> | 
+  <a href="../games.html">Games</a>
+</nav>
+
+
+  <div class="container">
+  <div class="canvas-wrapper">
+    <!-- HANYA SATU canvas -->
+    <canvas id="gameCanvas" width="800" height="450"></canvas>
+
+    <!-- Overlay loading (di awal game) -->
+    <div class="overlay" id="overlay">
+      <div class="loading-icons">● ▲ ■</div>
+      <button class="start-btn" id="playIntroMusic">Mainkan Musik</button>
+      <button class="start-btn" id="startGame">Mulai Game</button>
+    </div>
+
+    <!-- Overlay hasil menang/kalah -->
+    <div class="result-overlay" id="resultOverlay" style="display: none;">
+      <h1 id="resultText"></h1>
+    </div>
+  </div>
+</div>
+
+
+    <div class="buttons">
+      <div class="btn-wrapper">
+        <img src="../img/kembali.png" alt="Kembali" id="btnKembali" />
+        <h1>kembali</h1>
+      </div>
+      <div class="btn-wrapper">
+        <img src="../img/ulang.png" alt="Restart" id="btnRestart" />
+        <h1>restart</h1>
+      </div>
+      <div class="btn-wrapper">
+        <img src="../img/maju.png" alt="Maju" id="btnMaju" />
+        <h1>maju</h1>
+      </div>
+    </div>
+  </div>
+
+ <audio id="shootSound" src="../audio/gun.mp3" preload="auto"></audio>
+<audio id="greenSound" src="../audio/squid.mp3" preload="auto"></audio>
+<audio id="redSound" src="../audio/squid.mp3" preload="auto"></audio>
+<audio id="introMusic" src="../audio/game.mp3" preload="auto"></audio>
+
+
+ <script>
+  const greenSound = document.getElementById("greenSound");
+  const redSound = document.getElementById("redSound");
+  const shootSound = document.getElementById("shootSound");
+  const introMusic = document.getElementById("introMusic");
+  const playIntroMusicBtn = document.getElementById("playIntroMusic");
+
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+  const overlay = document.getElementById("overlay");
+  const resultOverlay = document.getElementById("resultOverlay");
+  const resultText = document.getElementById("resultText");
+  const startBtn = document.getElementById("startGame");
+
+  const assets = {
+    bg: "../img/squid.png",
+    player: "../img/player.png",
+    npc: "../img/npc.png",
+    boneka: "../img/boneka.png",
+    green: "../img/green.png",
+    red: "../img/red.png"
+  };
+
+  const images = {};
+  let loadedCount = 0;
+  const keys = Object.keys(assets);
+
+  let isGreenLight = true;
+  let lastLightChange = Date.now();
+  const lightInterval = 4000;
+
+  let playerX = 100;
+  let playerAlive = true;
+  let playerMovedDuringRed = false;
+  let gameEnded = false;
+
+  const npcs = [
+    { x: 200, y: 330, speed: 0.6 + Math.random() * 0.4, alive: true, movedDuringRed: false },
+    { x: 270, y: 330, speed: 0.6 + Math.random() * 0.4, alive: true, movedDuringRed: false },
+    { x: 340, y: 330, speed: 0.6 + Math.random() * 0.4, alive: true, movedDuringRed: false }
+  ];
+
+  playIntroMusicBtn.addEventListener("click", () => {
+    introMusic.play().then(() => {
+      playIntroMusicBtn.style.display = "none";
+    }).catch((e) => {
+      console.log("Autoplay gagal:", e);
+    });
+  });
+
+  keys.forEach(key => {
+    const img = new Image();
+    img.src = assets[key];
+    img.onload = () => {
+      images[key] = img;
+      loadedCount++;
+      if (loadedCount === keys.length) {
+        console.log("Semua gambar dimuat");
+      }
+    };
+  });
+
+  function toggleLight() {
+    isGreenLight = !isGreenLight;
+    lastLightChange = Date.now();
+
+    if (isGreenLight) {
+      greenSound.currentTime = 1;
+      greenSound.play();
+      npcs.forEach(npc => npc.movedDuringRed = false);
+      playerMovedDuringRed = false;
+    } else {
+      redSound.currentTime = 5;
+      redSound.play();
+    }
+  }
+
+  startBtn.addEventListener("click", () => {
+    overlay.style.display = "none";
+    lastLightChange = Date.now();
+    toggleLight();
+    requestAnimationFrame(gameLoop);
+    setInterval(toggleLight, lightInterval);
+    introMusic.pause();
+    introMusic.currentTime = 0;
+  });
+
+  function checkGameStatus() {
+    if (gameEnded) return;
+
+    if (playerAlive && playerX >= 680) {
+      showResult("MENANG!");
+      gameEnded = true;
+      return;
+    }
+
+    if (!playerAlive) {
+      showResult("KALAH!");
+      gameEnded = true;
+    }
+  }
+
+  function showResult(text) {
+    resultText.innerText = text;
+    resultOverlay.style.display = "flex";
+  }
+
+  function gameLoop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(images.bg, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(images.boneka, 700, 200, 130, 180);
+    ctx.drawImage(isGreenLight ? images.green : images.red, 670, 30, 40, 40);
+
+    if (playerAlive) {
+      ctx.drawImage(images.player, playerX, 330, 110, 110);
+    } else {
+      ctx.save();
+      ctx.globalAlpha = 0.5;
+      ctx.drawImage(images.player, playerX, 330, 110, 110);
+      ctx.restore();
+    }
+
+    for (let npc of npcs) {
+      if (npc.alive) {
+        if (isGreenLight) {
+          npc.x += npc.speed;
+        } else {
+          const timeSinceRed = Date.now() - lastLightChange;
+          if (npc.movedDuringRed && timeSinceRed > 3000) {
+            npc.alive = false;
+            shootSound.currentTime = 0;
+            shootSound.play();
+          } else if (Math.random() < 0.01) {
+            npc.movedDuringRed = true;
+            npc.x += npc.speed;
+          }
+        }
+      }
+
+      ctx.save();
+      if (!npc.alive) ctx.globalAlpha = 0.5;
+      ctx.drawImage(images.npc, npc.x, npc.y, 110, 110);
+      ctx.restore();
+    }
+
+    checkGameStatus();
+    if (!gameEnded) requestAnimationFrame(gameLoop);
+  }
+
+  function handlePlayerMove(dir) {
+    if (!playerAlive || gameEnded) return;
+    playerX += dir;
+
+    if (!isGreenLight) {
+      const timeSinceRed = Date.now() - lastLightChange;
+      if (timeSinceRed > 3000 && !playerMovedDuringRed) {
+        playerMovedDuringRed = true;
+        playerAlive = false;
+        shootSound.currentTime = 0;
+        shootSound.play();
+      }
+    }
+  }
+
+  document.getElementById("btnMaju").onclick = () => handlePlayerMove(5);
+  document.getElementById("btnKembali").onclick = () => handlePlayerMove(-5);
+
+  document.getElementById("btnRestart").onclick = () => {
+    playerX = 100;
+    playerAlive = true;
+    playerMovedDuringRed = false;
+    gameEnded = false;
+    resultOverlay.style.display = "none";
+
+    npcs.forEach((npc, i) => {
+      npc.x = 200 + i * 70;
+      npc.alive = true;
+      npc.movedDuringRed = false;
+      npc.speed = 0.6 + Math.random() * 0.4;
+    });
+  };
+  
+</script>
+</body>
+</html>

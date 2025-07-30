@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Scene 6 - Gangguan Dunia Nyata</title>
+  <link rel="stylesheet" href="../css/game3.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .character-img, .yogi, .hijab {
+      position: absolute;
+      bottom: 10px;
+      width: 195px;
+      transform: translateX(-50%);
+      z-index: 2;
+      opacity: 0;
+    }
+
+    .character-img { left: 20%; }
+    .yogi { left: 20%; }
+    .hijab { left: 80%; }
+
+    .slide-up {
+      animation: slideUp 1.5s ease-out forwards;
+    }
+
+    .slide-down {
+      animation: slideDown 1.5s ease-in forwards;
+    }
+
+    @keyframes slideUp {
+      from { transform: translate(-50%, 100px); opacity: 0; }
+      to { transform: translate(-50%, 0); opacity: 1; }
+    }
+
+    @keyframes slideDown {
+      from { transform: translate(-50%, 0); opacity: 1; }
+      to { transform: translate(-50%, 100px); opacity: 0; }
+    }
+
+    .dialog-box {
+      position: absolute;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 12px;
+      padding: 20px;
+      width: 80%;
+      max-width: 800px;
+      border-radius: 12px;
+      text-align: center;
+      z-index: 5;
+    }
+
+    .next-button {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      font-size: 12px;
+      font-family: 'Press Start 2P';
+      z-index: 6;
+      display: none;
+      cursor: pointer;
+    }
+
+    .fade-overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: black;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      z-index: 1;
+      transition: opacity 1.5s;
+    }
+
+    .flash-effect {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: white;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    .shake {
+      animation: shake 0.4s;
+    }
+
+    @keyframes shake {
+      0% { transform: translate(0px, 0px); }
+      20% { transform: translate(-5px, 5px); }
+      40% { transform: translate(5px, -5px); }
+      60% { transform: translate(-5px, 5px); }
+      80% { transform: translate(5px, -5px); }
+      100% { transform: translate(0px, 0px); }
+    }
+  </style>
+</head>
+<body>
+  <nav class="top-nav">
+    <a href="../profile.html">Profile</a>
+    <a href="../games.html">Games</a>
+  </nav>
+
+  <div class="game-container" id="gameContainer">
+    <img src="../img/coding.png" alt="Kamar Yogi" class="background-image">
+    <img src="../img/yogiduduk.png" style="position:absolute; bottom:10px; left:50%; width:195px; transform:translateX(-50%); z-index:3;">
+    
+    <img src="../img/bingung.png" alt="Karakter Bingung" class="character-img" id="bingung">
+    <img src="../img/kaget.png" alt="Karakter Kaget" class="yogi" id="kaget">
+    <img src="../img/hijab.png" alt="Karakter Hijab" class="hijab" id="hijab">
+
+    <div class="dialog-box" id="dialog"></div>
+    <button class="next-button" id="nextBtn" onclick="nextDialog()">LANJUTKAN</button>
+    <div class="fade-overlay" id="fade"></div>
+    <div class="flash-effect" id="flash"></div>
+  </div>
+
+  <script>
+    const dialog = document.getElementById("dialog");
+    const nextBtn = document.getElementById("nextBtn");
+    const fade = document.getElementById("fade");
+    const flash = document.getElementById("flash");
+    const container = document.getElementById("gameContainer");
+
+    const bingung = document.getElementById("bingung");
+    const kaget = document.getElementById("kaget");
+    const hijab = document.getElementById("hijab");
+
+    const dialogs = [
+      `"aduh"`,
+      `"loh kok dikamar!!"`,
+      `"jangan jangan ..."`,
+      `"tahun berapa ini"`,
+      `"APA 2030 !!"`,
+      `"hahh?! 2030 demi apaaa"`,
+      `"sayang sini mam dulu bareng"`,
+      `"hahh ?! itu putri ?? jadi istri ?!"`
+    ];
+
+    let index = 0;
+
+    function typeText(text, callback) {
+      dialog.innerHTML = "";
+      let i = 0;
+      const speed = 40;
+
+      function type() {
+        if (i < text.length) {
+          dialog.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(type, speed);
+        } else {
+          nextBtn.style.display = "block";
+          if (callback) callback();
+        }
+      }
+
+      type();
+    }
+
+    function triggerFlashAndShake() {
+      // Flash putih
+      flash.style.opacity = 1;
+      setTimeout(() => {
+        flash.style.opacity = 0;
+      }, 150);
+
+      // Shake
+      container.classList.add("shake");
+      setTimeout(() => {
+        container.classList.remove("shake");
+      }, 400);
+    }
+
+    function nextDialog() {
+      nextBtn.style.display = "none";
+      index++;
+
+      if (index < dialogs.length) {
+        if (index === 1) {
+          bingung.classList.remove("slide-up");
+          bingung.classList.add("slide-down");
+
+          setTimeout(() => {
+            bingung.style.display = "none";
+            kaget.classList.add("slide-up");
+            typeText(dialogs[index]);
+          }, 1600);
+        } 
+        else if (index === 6) {
+          hijab.classList.add("slide-up");
+          typeText(dialogs[index]);
+        } 
+        else {
+          typeText(dialogs[index]);
+        }
+
+        // Flash + Shake khusus dialog tertentu
+        if (dialogs[index] === `"APA 2030 !!"` || dialogs[index] === `"hahh ?! itu putri ?? jadi istri ?!"`) {
+          triggerFlashAndShake();
+        }
+
+      } else {
+        fade.style.opacity = 1;
+        setTimeout(() => {
+          window.location.href = "kredit.html";
+        }, 2000);
+      }
+    }
+
+    window.onload = () => {
+      bingung.classList.add("slide-up");
+      typeText(dialogs[0]);
+    };
+  </script>
+</body>
+</html>

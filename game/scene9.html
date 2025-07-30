@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Scene 9 - My Life for You</title>
+  <link rel="stylesheet" href="../css/game3.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="top-nav">
+    <a href="../profile.html">Profile</a>
+    <a href="../games.html">Games</a>
+  </div>
+
+  <div class="game-container">
+    <img src="../img/dalam.png" class="background-image" />
+    
+    <img src="../img/yogi.png" class="scene9" style="left: 200px;" />
+    <img src="../img/putri-sma.png" class="scene9" style="right: 20px;" />
+
+    <div class="dialog-box" id="dialogBox"></div>
+  </div>
+
+  <script>
+    const dialogBox = document.getElementById("dialogBox");
+    const dialogs = [
+      "Yogi: putri aku abis belajar coding dirumah kemaren seru",
+      "Putri: ohh ya ? ... gimana kasih tau ",
+      "Yogi: jadi aku belajar HTML , CSS , JAVASCRIPT... itu seru banget huhuu",
+      "Putri: kamu bisaa ? kerenn good job !",
+      "Yogi: bisaa dong malahan seru belajar nyaa",
+      "Putri: Semangatt teruss yaa !! 😊",
+      "Yogi: siapp aku bakal semangatt terusss kok "
+    ];
+    let index = 0;
+
+    function showDialog() {
+      if (index < dialogs.length) {
+        dialogBox.textContent = dialogs[index];
+        index++;
+      } else {
+        window.location.href = "scene10.html"; // lanjut ke scene berikutnya
+      }
+    }
+
+    document.addEventListener("click", showDialog);
+    showDialog(); // mulai dialog pertama
+  </script>
+</body>
+</html>

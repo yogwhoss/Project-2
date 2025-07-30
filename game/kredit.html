@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kredit Game</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: white;
+      font-family: 'Courier New', monospace;
+      overflow: hidden;
+    }
+
+    .credit-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .credit-text {
+      position: absolute;
+      bottom: -100%;
+      width: 100%;
+      text-align: center;
+      animation: scrollUp 30s linear forwards;
+      font-size: 1.2rem;
+    }
+
+    @keyframes scrollUp {
+      0% { bottom: -100%; }
+      100% { bottom: 100%; }
+    }
+
+    h1, h2, p {
+      margin: 10px;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #444;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      z-index: 2;
+      font-family: 'Courier New', monospace;
+    }
+
+    .back-button:hover {
+      background: #666;
+    }
+
+    .music-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #444;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      z-index: 2;
+      font-family: 'Courier New', monospace;
+      display: none;
+    }
+
+    .music-button:hover {
+      background: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="credit-container">
+    <button class="back-button" onclick="goBack()">⟵ Kembali</button>
+    <button class="music-button" id="musicBtn" onclick="playMusic()">🔊 Mainkan Musik</button>
+
+    <div class="credit-text">
+      <h1>TERIMA KASIH TELAH BERMAIN!</h1>
+      <br><br>
+      <h2>Dibuat Oleh:</h2>
+      <p>Yogi permana</p>
+
+      <h2>Inspirasi Karakter:</h2>
+      <p>Putri</p>
+
+      <h2>Desain Pixel Art:</h2>
+      <p>Yogi & Putri</p>
+
+      <h2>Musik:</h2>
+      <p>Pixel Lo-Fi Vibes</p>
+
+      <h2>Spesial Thanks:</h2>
+      <p>putri<br>Orang Tua<br>Sahabat</p>
+
+      <br><br>
+      <h2>Website:</h2>
+      <p>github.com/yogi-project</p>
+
+      <br><br><br>
+      <h1>MY LIFE FOR YOU</h1>
+      <p>&copy; 2025</p>
+    </div>
+
+    <!-- Audio -->
+    <audio id="bgMusic" src="../audio/end.mp3" loop></audio>
+    <audio id="clickSound" src="../audio/kembali (2).wav"></audio>
+  </div>
+
+  <script>
+    const bgMusic = document.getElementById("bgMusic");
+    const clickSound = document.getElementById("clickSound");
+    const musicBtn = document.getElementById("musicBtn");
+
+    // Coba play saat halaman load
+    window.addEventListener("load", () => {
+      bgMusic.volume = 0.4;
+      bgMusic.play().catch(() => {
+        // Kalau gagal autoplay, tampilkan tombol
+        musicBtn.style.display = "block";
+      });
+    });
+
+    function playMusic() {
+      bgMusic.play();
+      musicBtn.style.display = "none";
+    }
+
+    function goBack() {
+      clickSound.currentTime = 0;
+      clickSound.play();
+      setTimeout(() => {
+        window.location.href = "../games.html";
+      }, 300);
+    }
+  </script>
+
+</body>
+</html>

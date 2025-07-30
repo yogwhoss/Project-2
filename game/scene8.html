@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Scene 8 - Pertemuan</title>
+  <link rel="stylesheet" href="../css/game3.css">
+</head>
+<body>
+  <div class="top-nav">
+    <a href="../profile.html">Profile</a>
+    <a href="../games.html">Games</a>
+  </div>
+
+  <div class="game-container">
+    <img src="../img/lorong.jpg" class="background-image" alt="lorong sekolah">
+    <img src="../img/yogi.png" class="char-yogi" alt="Yogi">
+    <img src="../img/putri-sma.png" class="char-putri hidden" alt="Putri" id="putri">
+    
+    <div class="dialog-box" id="dialog">Hari itu... aku gak nyangka akan bertemu dia.</div>
+  </div>
+
+  <script>
+    const dialog = document.getElementById("dialog");
+    const putri = document.getElementById("putri");
+
+    const lines = [
+      "Hari itu... aku gak nyangka akan bertemu dia.",
+      "ayoo yogi ke kelas ",
+      "Iya ayo...",
+      "Namanya Putri. Senyumnya... bikin deg-degan."
+    ];
+
+    let index = 0;
+
+    document.addEventListener("click", () => {
+      index++;
+      if (index === 1) {
+        putri.classList.remove("hidden");
+        putri.classList.add("putri-enter");
+      }
+      if (index < lines.length) {
+        dialog.textContent = lines[index];
+      } else {
+        window.location.href = "scene9.html"; // Lanjut ke scene berikutnya
+      }
+    });
+  </script>
+</body>
+</html>

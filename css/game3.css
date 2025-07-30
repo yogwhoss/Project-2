@@ -1,0 +1,533 @@
+body {
+  margin: 0;
+  font-family: 'Press Start 2P', cursive;
+  background: #f4f4f4;
+  overflow: hidden;
+}
+
+.top-nav {
+  background: repeating-linear-gradient(
+    45deg,
+    #ccc,
+    #ccc 10px,
+    #eee 10px,
+    #eee 20px
+  );
+  text-align: center;
+  padding: 8px 0;
+  font-size: 14px;
+}
+
+.top-nav a {
+  margin: 0 20px;
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.game-container {
+  position: relative;
+  width: 95%;
+  max-width: 880px;
+  margin: 10px auto;
+  border: 8px solid black;
+  background-color: white;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.game-title {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  color: white;
+  font-family: 'Press Start 2P', cursive;
+  background: rgba(0, 0, 0, 0.5); /* transparan biar terbaca */
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-shadow: 2px 2px 6px black;
+}
+
+
+.start-button {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  background: #3399ff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  box-shadow: 2px 2px 0 #000;
+  transition: transform 0.1s;
+}
+
+.start-button:active {
+  transform: translateY(2px);
+}
+
+/* Animasi glow */
+@keyframes fadeGlow {
+  0% {
+    opacity: 0.8;
+    text-shadow: 2px 2px 0 #000;
+  }
+  100% {
+    opacity: 1;
+    text-shadow: 2px 2px 10px #fff;
+  }
+}
+
+.bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.char-image {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  width: 200px;
+  transform: translateX(-50%);
+  animation: idleMove 2s infinite ease-in-out;
+}
+
+@keyframes idleMove {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(3px); }
+}
+
+/* Background dan karakter */
+.background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.character {
+  position: absolute;
+  bottom: 0;
+  left: 54%;
+  transform: translateX(-50%);
+  width: 370px;
+  z-index: 2;
+  animation: idle 1.5s infinite;
+}
+
+/* Judul game */
+.game-title {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  font-family: 'Press Start 2P', cursive;
+  color: #fff;
+  text-shadow: 2px 2px 5px #000;
+  z-index: 3;
+}
+
+/* Tombol menu */
+.menu-buttons {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.menu-buttons button {
+  font-family: 'Press Start 2P', cursive;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 10px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 #000;
+  border-radius: 5px;
+  transition: transform 0.1s;
+}
+
+.menu-buttons button:active {
+  transform: translateY(2px);
+}
+
+/* Animasi idle */
+@keyframes idle {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-3px);
+  }
+}
+
+.char-image {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  z-index: 2;
+  animation: idle 1.5s infinite;
+}
+
+@keyframes idle {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-3px); }
+}
+
+.walk {
+  animation: walkToSchool 2.5s forwards ease-in;
+}
+
+@keyframes walkToSchool {
+  0% {
+    transform: translateX(-50%) scale(1);
+    bottom: 0;
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) scale(0.4);
+    bottom: 60%;
+    opacity: 0;
+  }
+}
+
+.flash-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  opacity: 0;
+  z-index: 1000;
+  transition: opacity 0.5s ease-in;
+  pointer-events: none; /* ✅ Ini yang penting */
+}
+
+.dialog-box {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  padding: 14px;
+  border-radius: 10px;
+  z-index: 10;
+  box-shadow: 0 0 8px #000;
+}
+
+.dialog-box button {
+  margin-top: 10px;
+  float: right;
+  background: #4f46e5;
+  color: white;
+  font-family: inherit;
+  font-size: 10px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+ 
+
+.dialog-box {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 18px 24px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  border-radius: 10px;
+  max-width: 90%;
+  text-align: center;
+  z-index: 5;
+}
+
+.next-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  padding: 10px 16px;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 #000;
+  z-index: 5;
+}
+
+.fade-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: black;
+  opacity: 0;
+  z-index: 5;
+  transition: opacity 1s ease-in-out;
+}
+
+.fade-white {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: white;
+  opacity: 1;
+  z-index: 5;
+  transition: opacity 1.5s ease-in-out;
+}
+
+.char-yogi {
+  position: absolute;
+  bottom: 0;
+  left: 60px;
+  width: 150px;
+  z-index: 2;
+}
+
+.char-putri {
+  position: absolute;
+  bottom: 0;
+  right: 100px;
+  width: 150px;
+  z-index: 2;
+  transition: transform 0.8s ease-in-out;
+}
+
+.putri-enter {
+  animation: putriDatang 1s forwards;
+}
+
+@keyframes putriDatang {
+  0% {
+    transform: translateX(200%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+
+.dialog-box {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  width: 80%;
+  text-align: center;
+  z-index: 10;
+}
+
+.scene9 {
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  transform: translateX(-50%);
+  width: 180px;
+  z-index: 2;
+  animation: idle 1.5s infinite;
+}
+
+.scene9 {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  z-index: 2;
+  animation: idle 1.5s infinite;
+}
+
+.slide-up {
+  position: absolute;
+  bottom: -300px; /* posisi awal di bawah layar */
+  left: 20%;
+  transform: translateX(-50%);
+  width: 200px;
+  z-index: 3;
+  transition: bottom 1s ease;
+}
+
+.dialog-box {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.8);
+  color: white;
+  font-family: 'Press Start 2P', monospace;
+  padding: 16px;
+  font-size: 12px;
+  z-index: 4;
+}
+
+#dialog-text {
+  margin-bottom: 8px;
+}
+
+/* Animasi karakter muncul dari bawah */
+.slide-up {
+  position: absolute;
+  bottom: -300px;
+  left: 20%;
+  transform: translateX(-50%);
+  z-index: 3;
+  transition: bottom 1s ease-out;
+}
+
+.dialog-box {
+  position: absolute;
+  bottom: 30px; /* naikkan dari bawah */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  padding: 20px 20px 40px 20px; /* tambahkan padding bawah */
+  border-radius: 15px;
+  width: 80%;
+  max-width: 800px;
+  text-align: center;
+  z-index: 10;
+}
+
+/* ==== RESPONSIVE FIX UNTUK HP / LAYAR KECIL ==== */
+
+@media (max-width: 768px) {
+
+  .char-image,
+  .character,
+  .char-yogi,
+  .char-putri,
+  .scene9 {
+    width: 40vw; /* fleksibel terhadap layar */
+  }
+
+  .menu-buttons button,
+  .start-button,
+  .next-button,
+  .dialog-box {
+    font-size: 3vw !important; /* agar teks lebih kecil di HP */
+    padding: 8px 12px;
+  }
+
+  .dialog-box {
+    bottom: 15px;
+    width: 90%;
+    max-width: 90%;
+    padding: 12px 16px;
+    font-size: 10px !important;
+  }
+
+  .game-title {
+    font-size: 14px;
+    top: 20px;
+  }
+
+  .game-container {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (max-width: 768px) {
+
+  /* Scene 2 fix: karakter jalan masuk */
+  .character.walk {
+    width: 40vw; /* auto kecilin di HP */
+  }
+
+  @keyframes walkToSchool {
+    0% {
+      transform: translateX(-50%) scale(1);
+      bottom: 0;
+    }
+    100% {
+      transform: translateX(-50%) scale(0.5); /* kecilin scale biar gak kepotong di HP */
+      bottom: 60%;
+    }
+  }
+
+  /* Scene 3 fix: karakter diam */
+  .char-image {
+    width: 70vw;
+  }
+
+  .game-title {
+    font-size: 14px;
+  }
+}
+
+#yogi {
+  position: absolute;
+  bottom: -300px;
+  right: 80%;
+  transform: translateX(-50%);
+  width: 35vw;
+  max-width: 180px;
+  z-index: 3;
+  transition: bottom 1s ease-out;
+}
+
+.char-yogi-static {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20vw;
+  max-width: 180px;
+  z-index: 3;
+}
+
+.char-yogi {
+  position: absolute;
+  width: 35vw;
+  max-width: 180px;
+  z-index: 3;
+  transition: bottom 1s ease-out;
+}

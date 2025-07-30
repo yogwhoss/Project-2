@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Scene 10 - My Life for You</title>
+  <link rel="stylesheet" href="../style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: #eee;
+      font-family: 'Press Start 2P', cursive;
+    }
+
+    .game-container {
+      position: relative;
+      width: 800px;
+      height: 450px;
+      margin: 30px auto;
+      background: url('../img/taman.png') no-repeat center center;
+      background-size: cover;
+      border: 4px solid black;
+    }
+
+    .character {
+      position: absolute;
+      bottom: 20px;
+      width: 120px;
+    }
+
+    .yogi {
+      left: 150px;
+    }
+
+    .putri {
+      right: 150px;
+    }
+
+    .dialog-box {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.75);
+      color: white;
+      padding: 20px;
+      font-size: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="game-container">
+  <img src="../img/yogi.png" class="character yogi">
+  <img src="../img/putri-sma.png" class="character putri">
+  <div class="dialog-box" id="dialog">Yogi: eh ketemu lagi ditaman , ngapain di taman ?</div>
+</div>
+
+<script>
+  const dialogBox = document.getElementById('dialog');
+  const dialogs = [
+    "Yogi: eh ketemu lagi ditaman , ngapain di taman ? ",
+    "Putri: ini lagi duduk aja ",
+    "*[Keduanya tersenyum...]*",
+    "*[Beberapa waktu kemudian, mereka pergi ke pantai bersama...]*"
+  ];
+
+  let index = 0;
+  document.addEventListener('click', () => {
+    index++;
+    if (index < dialogs.length) {
+      dialogBox.innerText = dialogs[index];
+    } else {
+      window.location.href = "scene11.html";
+    }
+  });
+</script>
+
+</body>
+</html>

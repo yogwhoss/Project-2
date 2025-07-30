@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Game Flappy Level 2</title>
+  <link rel="stylesheet" href="level2.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">Flappy Game - Level 2</h1>
+    <p class="instructions">Tekan tombol <strong>F</strong> atau klik tombol ungu untuk menembak burung!</p>
+
+    <div class="game-area">
+      <canvas id="gameCanvas" width="480" height="320"></canvas>
+
+      <!-- Scope -->
+      <img src="scope.png" id="scope" alt="Scope" />
+
+      <!-- Tombol Tembak -->
+      <button id="shootBtn">
+        <img src="tombol.png" alt="Shoot Button" />
+      </button>
+
+      <!-- Gambar Menang -->
+      <img src="burung.png" id="winBird" class="win-img" />
+      <img src="piala.png" id="winTrophy" class="win-img" />
+      <img src="putri.png" id="winPutri" class="win-img" />
+    </div>
+
+    <!-- Tombol Navigasi -->
+    <div class="button-group">
+      <button onclick="startGame()">Mulai</button>
+      <button onclick="restartGame()">Restart</button>
+      <button onclick="window.location.href='index.html'">Kembali ke Menu</button>
+    </div>
+  </div>
+
+  <script src="level2.js"></script>
+</body>
+</html>

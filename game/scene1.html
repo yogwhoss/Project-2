@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Life For You - Scene 1</title>
+  <link rel="stylesheet" href="../css/game3.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <style>
+    #enableMusicBtn {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 99;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      padding: 8px 16px;
+      background: #222;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+    #enableMusicBtn:hover {
+      background: #444;
+    }
+  </style>
+</head>
+<body>
+  <nav class="top-nav">
+    <a href="../profile.html">Profile</a>
+    <a href="../games.html">Games</a>
+  </nav>
+
+  <div class="game-container">
+    <img src="../img/sekolah.png" class="bg-image" alt="sekolah" />
+    <img src="../img/me.png" class="char-image" id="yogi" alt="karakter" />
+    <h1 class="game-title">MY LIFE FOR YOU</h1>
+
+    <div class="menu-buttons">
+      <button onclick="startGame()">START</button>
+      <button onclick="saveGame()">SAVE</button>
+      <button onclick="loadGame()">LOAD</button>
+    </div>
+
+    <div class="flash-overlay" id="flash"></div>
+
+    <!-- Tombol untuk mengaktifkan musik -->
+    <button id="enableMusicBtn">🎵 NYALAKAN MUSIK</button>
+
+    <!-- Audio -->
+    <audio id="bg-music" src="../audio/love.mp3" loop></audio>
+    <audio id="click-sound" src="../audio/click.wav"></audio>
+    <audio id="start-sound" src="../audio/start.wav"></audio>
+  </div>
+
+  <script>
+    const bgMusic = document.getElementById("bg-music");
+    const clickSound = document.getElementById("click-sound");
+    const startSound = document.getElementById("start-sound");
+    const enableMusicBtn = document.getElementById("enableMusicBtn");
+
+    enableMusicBtn.addEventListener("click", () => {
+      bgMusic.volume = 0.4;
+      bgMusic.play().then(() => {
+        enableMusicBtn.style.display = "none";
+      }).catch((e) => {
+        console.log("Gagal memutar musik:", e);
+        alert("Klik ulang untuk mengaktifkan musik.");
+      });
+    });
+
+    function playClickSound() {
+      clickSound.currentTime = 0;
+      clickSound.play();
+    }
+
+    function startGame() {
+      startSound.currentTime = 0;
+      startSound.play();
+
+      const yogi = document.getElementById("yogi");
+      const flash = document.getElementById("flash");
+
+      yogi.classList.add("walk");
+
+      setTimeout(() => {
+        flash.style.opacity = 1;
+      }, 2500);
+
+      setTimeout(() => {
+        window.location.href = "scene2.html";
+      }, 3300);
+    }
+
+    function saveGame() {
+      playClickSound();
+      localStorage.setItem("game3_scene", "scene1");
+      alert("Game berhasil disimpan!");
+    }
+
+    function loadGame() {
+      playClickSound();
+      const scene = localStorage.getItem("game3_scene");
+      if (scene) {
+        window.location.href = scene + ".html";
+      } else {
+        alert("Belum ada save ditemukan.");
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Game Flappy Level 2</title>
+  <link rel="stylesheet" href="../css/level2.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Press Start 2P', cursive;
+      background-color: #f0f0f0;
+      text-align: center;
+      color: #333;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: repeating-linear-gradient(45deg, #eee, #eee 10px, #ddd 10px, #ddd 20px);
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      font-size: 14px;
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: black;
+    }
+
+    .navbar a:hover {
+      color: #555;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .title {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .instructions {
+      font-size: 12px;
+      margin-bottom: 15px;
+    }
+
+    .game-area {
+      position: relative;
+      display: inline-block;
+      border: 4px solid #ccc;
+      background-image: url('../img/bacground.jpg');
+      background-size: cover;
+      width: 480px;
+      height: 320px;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    #scope {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    #shootBtn {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      padding: 0;
+      z-index: 3;
+      cursor: pointer;
+    }
+
+    #shootBtn img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .win-img {
+      position: absolute;
+      display: none;
+      z-index: 4;
+    }
+
+    #winBird {
+      left: 30%;
+      top: 30%;
+      width: 60px;
+    }
+
+    #winTrophy {
+      left: 50%;
+      top: 40%;
+      width: 200px;
+      transform: translateX(-50%);
+    }
+
+    #winPutri {
+      left: 65%;
+      top: 60%;
+      width: 60px;
+    }
+
+    .button-group {
+      margin-top: 20px;
+    }
+
+    .button-group button {
+      font-family: 'Press Start 2P', cursive;
+      padding: 10px;
+      margin: 5px;
+      border: none;
+      background-color: #ddd;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: background-color 0.2s ease;
+    }
+
+    .button-group button:hover {
+      background-color: #ccc;
+    }
+
+    #joystick-container {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      width: 100px;
+      height: 100px;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      touch-action: none;
+      z-index: 4;
+    }
+
+    #joystick {
+      width: 40px;
+      height: 40px;
+      background: #888;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      touch-action: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Navbar -->
+  <div class="navbar">
+    <a href="../profile.html">Profile</a>
+    <a href="../games.html">Games</a>
+  </div>
+
+  <!-- ✅ Konten Utama -->
+  <div class="container">
+    <h1 class="title">Flappy Game - Level 2</h1>
+    <p class="instructions">Tekan tombol <strong>F</strong> atau klik tombol ungu untuk menembak burung!</p>
+
+    <div class="game-area">
+      <canvas id="gameCanvas" width="480" height="320"></canvas>
+      <img src="../img/scope.png" id="scope" alt="Scope" />
+      <button id="shootBtn">
+        <img src="../img/tombol.png" alt="Shoot Button" />
+      </button>
+      <div id="joystick-container">
+        <div id="joystick"></div>
+      </div>
+      <img src="../img/burung.png" id="winBird" class="win-img" />
+      <img src="../img/piala.png" id="winTrophy" class="win-img" />
+      <img src="../img/putri.png" id="winPutri" class="win-img" />
+    </div>
+
+    <div class="button-group">
+      <button onclick="startGame()">Mulai</button>
+      <button onclick="restartGame()">Restart</button>
+      <button onclick="window.location.href='../games.html'">Kembali ke Menu</button>
+    </div>
+  </div>
+
+  <!-- ✅ JS Terpisah -->
+  <script src="../level2.js"></script>
+</body>
+</html>

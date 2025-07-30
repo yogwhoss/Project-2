@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scene 3 - My Life For You</title>
+  <link rel="stylesheet" href="../css/game3.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav class="top-nav">
+    <a href="../profile.html">Profile</a>
+    <a href="../games.html">Games</a>
+  </nav>
+
+  <div class="game-container">
+    <!-- Background -->
+    <img src="../img/kamar yogi.jpg" class="background-image" alt="Kamar Yogi">
+
+    <!-- Karakter duduk -->
+    <img src="../img/yogiduduk.png" class="char-yogi-static">
+
+    <!-- Karakter muncul dari bawah -->
+    <img src="../img/yogi.png" id="yogi" class="char-yogi slide-up">
+
+    <!-- Dialog -->
+    <div class="dialog-box">
+      <p id="dialog-text"></p>
+      <button onclick="nextDialog()">▶</button>
+    </div>
+  </div>
+
+  <script>
+    const text = "Aku sadar... kalau aku gak mulai sekarang, aku akan kehilangan dia selamanya.";
+    let i = 0;
+    const target = document.getElementById("dialog-text");
+    const yogi = document.getElementById("yogi");
+
+    function typeWriter() {
+      if (i < text.length) {
+        target.innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, 40);
+      } else {
+        yogi.style.bottom = "10px";
+      }
+    }
+
+    window.onload = typeWriter;
+
+    function nextDialog() {
+      window.location.href = "scene4.html";
+    }
+  </script>
+</body>
+</html>

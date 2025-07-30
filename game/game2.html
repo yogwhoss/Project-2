@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Flappy - Level 1</title>
+  <!-- Font Pixel -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  
+  <!-- CSS Style -->
+  <link rel="stylesheet" href="../css/game2.css">
+  <link rel="stylesheet" href="../css/game2.css">
+</head>
+<body>
+  <!-- Navigasi -->
+  <nav class="nav-center">
+  <a href="../profile.html">Profile</a> |
+  <a href="../games.html">Games</a>
+</nav>
+
+
+  <!-- Judul dan instruksi -->
+  <div class="title">Game Flappy 🐤</div>
+  <div class="instruction">Tekan Spasi / tombol lompat untuk terbang</div>
+
+  <!-- Level indikator -->
+  <div class="level-select">
+    <div class="level active">💎 Level 1</div>
+    <div class="level locked">🔒 Level 2</div>
+  </div>
+
+  <!-- Area game -->
+  <div class="game-container">
+    <canvas id="gameCanvas" width="600" height="300"></canvas>
+
+    <!-- Gambar piala saat menang -->
+    <img src="/img/piala.png" id="winTrophy" class="win-animation hidden" alt="Trophy">
+
+    <!-- Gambar queen saat naik level -->
+    <img src="/img/queen.png" id="levelUp" class="level-up hidden" alt="Queen">
+
+    <!-- Typewriter text -->
+    <div id="typewriterMessage" class="typewriter hidden">KAMU HEBAT!</div>
+  </div>
+
+  <!-- Tombol kontrol -->
+  <div class="buttons">
+    <button onclick="startGame()">START GAME</button>
+    <button onclick="jump()">Lompat</button>
+    <button onclick="restartGame()">RESTART</button>
+    <button onclick="window.location.href='../games.html'">Kembali ke Menu</button>
+    <button id="nextLevelBtn" class="hidden" onclick="goToLevel2()">Lanjut ke Level 2</button>
+    <div id="gameOverMessage" class="game-message"></div>
+  </div>
+
+  <!-- Script game -->
+  <script src="../js_game2.js"></script>
+</body>
+</html>

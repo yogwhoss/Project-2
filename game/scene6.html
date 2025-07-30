@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Scene 6 - Gangguan Dunia Nyata</title>
+  <link rel="stylesheet" href="../css/game3.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    .character-img {
+      position: absolute;
+      bottom: 10px;
+      left: 20%;
+      width: 195px;
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+
+    .dialog-box {
+      position: absolute;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 12px;
+      padding: 20px;
+      width: 80%;
+      max-width: 800px;
+      border-radius: 12px;
+      text-align: center;
+      z-index: 5;
+    }
+
+    .next-button {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      font-size: 12px;
+      font-family: 'Press Start 2P';
+      z-index: 6;
+      display: none;
+      cursor: pointer;
+    }
+
+    .fade-overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: black;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      z-index: 1;
+      transition: opacity 1s;
+    }
+  </style>
+</head>
+<body>
+  <nav class="top-nav">
+    <a href="../profile.html">Profile</a>
+    <a href="../games.html">Games</a>
+  </nav>
+
+  <div class="game-container">
+    <img src="../img/coding.png" alt="Kamar Yogi" class="background-image">
+    <img src="../img/yogiduduk.png"style="position:absolute; bottom:10px; left:50%; width:195px; transform:translateX(-50%); z-index:3;">
+    <img src="../img/marah2.png" alt="Ibu Marah" class="character-img">
+
+    <div class="dialog-box" id="dialog"></div>
+    <button class="next-button" id="nextBtn" onclick="nextDialog()">LANJUTKAN</button>
+    <div class="fade-overlay" id="fade"></div>
+  </div>
+
+  <script>
+    const dialog = document.getElementById("dialog");
+    const nextBtn = document.getElementById("nextBtn");
+    const fade = document.getElementById("fade");
+
+    const dialogs = [
+      `"Yogi! Beli galon dulu ya!"`,
+      `Terkadang... dunia nyata gak kasih waktu buat mimpi.`
+    ];
+
+    let index = 0;
+
+    function typeText(text, callback) {
+      dialog.innerHTML = "";
+      let i = 0;
+      const speed = 40;
+
+      function type() {
+        if (i < text.length) {
+          dialog.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(type, speed);
+        } else {
+          nextBtn.style.display = "block";
+          if (callback) callback();
+        }
+      }
+
+      type();
+    }
+
+    function nextDialog() {
+      nextBtn.style.display = "none";
+      index++;
+
+      if (index < dialogs.length) {
+        typeText(dialogs[index]);
+        if (index === 1) {
+          fade.style.opacity = 0.5;
+        }
+      } else {
+        window.location.href = "scene7.html";
+      }
+    }
+
+    // Ketik dialog pertama saat halaman dimuat
+    window.onload = () => {
+      typeText(dialogs[0]);
+    };
+  </script>
+</body>
+</html>

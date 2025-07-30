@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Scene 9 - My Life for You</title>
+  <link rel="stylesheet" href="../css/game3.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="top-nav">
+    <a href="../profile.html">Profile</a>
+    <a href="../games.html">Games</a>
+  </div>
+
+  <div class="game-container">
+    <img src="../img/pantai.png" class="background-image" />
+    
+    <img src="../img/baju-bebas.png" style="position:absolute; bottom:10px; left:80%; width:180px; transform:translateX(-50%); z-index:3;">
+    <img src="../img/putri.png"style="position:absolute; bottom:10px; right:55%; width:200px; transform:translateX(-50%); z-index:3;">
+
+    <div class="dialog-box" id="dialogBox"></div>
+  </div>
+
+  <script>
+    const dialogBox = document.getElementById("dialogBox");
+    const dialogs = [
+      "Yogi: eumm....",
+      "Yogi: akhirnya kita kepantai ya",
+      "Putri: iyaa hehee 😊",
+      "Yogi: kita udah dewasa ya",
+      "Putri: iyaa sayang ",
+      "putri: kamu gak belajar coding lagi ?",
+      "yogi: belajar kok , malahan lagi buat project",
+      "putri: wih hebat project apa ?",
+      "yogi: project bikin web game dari html , css , javascript ",
+      "putri: wihh ituu keren banget sih",
+      "yogi: aduh kok aku merasa pusing ya",
+      "putri: heh ! pusing kenapa ?!",
+      "yogi: gatau sakit ",
+      "yogi (pingsan): ..... ",
+      "putri: yogii !!!! ",
+    ];
+    let index = 0;
+
+    function showDialog() {
+      if (index < dialogs.length) {
+        dialogBox.textContent = dialogs[index];
+        index++;
+      } else {
+        window.location.href = "scene12.html"; // lanjut ke scene berikutnya
+      }
+    }
+
+    document.addEventListener("click", showDialog);
+    showDialog(); // mulai dialog pertama
+  </script>
+</body>
+</html>
